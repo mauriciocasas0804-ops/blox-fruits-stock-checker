@@ -1,4 +1,8 @@
 export const config = {
-  fruitToSearch: "Kitsune",
+  fruitsToSearch: [
+    "Kitsune",
+    "Dragon",
+    "Control"
+  ],
   checkInterval: 60,
 };
