@@ -1,15 +1,19 @@
+import fs from "fs/promises";
+
+
 export async function getStock() {
   try {
-    const response = await fetch(
-      "https://blox-fruits-api.onrender.com/api/bloxfruits"
+    const data = await fs.readFile(
+      "./data/stock.json",
+      "utf-8"
     );
 
-    const data = await response.json();
+    const json = JSON.parse(data);
 
-    return Object.keys(data);
+    return json.stock;
 
   } catch (error) {
-    console.error("Error obteniendo frutas:", error);
+    console.error("Error leyendo stock:", error.message);
     return [];
   }
 }
