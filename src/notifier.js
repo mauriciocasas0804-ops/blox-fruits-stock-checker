@@ -1,4 +1,33 @@
+import fs from "fs/promises";
+
 const webhookURL = process.env.DISCORD_WEBHOOK;
+
+
+async function getLastAlert() {
+  try {
+    const data = await fs.readFile(
+      "./data/last-alert.json",
+      "utf-8"
+    );
+
+    return JSON.parse(data).lastAlert;
+
+  } catch {
+    return [];
+  }
+}
+
+
+async function saveLastAlert(fruits) {
+  await fs.writeFile(
+    "./data/last-alert.json",
+    JSON.stringify(
+      { lastAlert: fruits },
+      null,
+      2
+    )
+  );
+}
 
 
 function getFruitEmoji(fruit) {
@@ -13,52 +42,61 @@ function getFruitEmoji(fruit) {
 
 
 export async function sendNotification(fruits) {
-  if (!webhookURL) {
-    console.error("No existe el webhook de Discord");
+
+  const previous = await getLastAlert();
+
+
+  const newFruits = fruits.filter(
+    fruit => !previous.includes(fruit)
+  );
+
+
+  if (newFruits.length === 0) {
+    console.log("⏭️ Ya se notificó esta fruta.");
     return;
   }
 
-  const time = new Date().toLocaleString("es-MX", {
-    timeZone: "America/Mexico_City"
-  });
 
-  const message = fruits
+  await saveLastAlert(fruits);
+
+
+  const message = newFruits
     .map(
-      (fruit) =>
-        `${getFruitEmoji(fruit)} **${fruit}** está disponible`
+      fruit =>
+      `${getFruitEmoji(fruit)} **${fruit}** está disponible`
     )
     .join("\n");
 
 
-  const content = `
-🚨 **Blox Fruits Stock Alert** 🚨
-
-${message}
-
-⏰ Revisado:
-${time}
-
-🤖 Blox Fruits Stock Checker
-`;
-
-
   try {
+
     await fetch(webhookURL, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        content,
+        content:
+`🚨 **Blox Fruits Stock Alert** 🚨
+
+${message}
+
+🤖 Blox Fruits Stock Checker`
       }),
     });
 
-    console.log("✅ Notificación enviada a Discord");
 
-  } catch (error) {
+    console.log(
+      "✅ Notificación enviada a Discord"
+    );
+
+
+  } catch(error) {
+
     console.error(
       "Error enviando notificación:",
       error.message
     );
+
   }
 }
