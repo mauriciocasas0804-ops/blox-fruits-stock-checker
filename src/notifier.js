@@ -1,11 +1,46 @@
 const webhookURL = process.env.DISCORD_WEBHOOK;
 
 
-export async function sendNotification(message) {
+function getFruitEmoji(fruit) {
+  const emojis = {
+    Dragon: "🐉",
+    Kitsune: "🦊",
+    Control: "🎛️"
+  };
+
+  return emojis[fruit] || "🍎";
+}
+
+
+export async function sendNotification(fruits) {
   if (!webhookURL) {
     console.error("No existe el webhook de Discord");
     return;
   }
+
+  const time = new Date().toLocaleString("es-MX", {
+    timeZone: "America/Mexico_City"
+  });
+
+  const message = fruits
+    .map(
+      (fruit) =>
+        `${getFruitEmoji(fruit)} **${fruit}** está disponible`
+    )
+    .join("\n");
+
+
+  const content = `
+🚨 **Blox Fruits Stock Alert** 🚨
+
+${message}
+
+⏰ Revisado:
+${time}
+
+🤖 Blox Fruits Stock Checker
+`;
+
 
   try {
     await fetch(webhookURL, {
@@ -14,7 +49,7 @@ export async function sendNotification(message) {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        content: message,
+        content,
       }),
     });
 
