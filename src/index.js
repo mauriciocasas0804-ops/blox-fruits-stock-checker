@@ -17,9 +17,7 @@ async function main() {
   );
 
   if (foundFruits.length > 0) {
-    sendNotification(
-      `🔥 Frutas encontradas: ${foundFruits.join(", ")}`
-    );
+    sendNotification(found);
   } else {
     console.log(
       "❌ No hay ninguna fruta buscada disponible."
