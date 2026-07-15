@@ -19,5 +19,7 @@ jobs:
       - name: Instalar dependencias
         run: npm install
 
-      - name: Ejecutar bot
-        run: npm start
+- name: Ejecutar bot
+  env:
+    DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+  run: npm start
