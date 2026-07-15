@@ -1,9 +1,10 @@
-import { config } from "./config.js";
 import { getStock, searchFruits } from "./stock.js";
 import { sendNotification } from "./notifier.js";
+import { config } from "./config.js";
 
 
 async function main() {
+
   console.log("🚀 Iniciando Blox Fruits Stock Checker...");
 
   const stock = await getStock();
@@ -11,18 +12,25 @@ async function main() {
   console.log("📦 Stock actual:");
   console.log(stock);
 
-  const foundFruits = searchFruits(
+
+  const availableFruits = searchFruits(
     stock,
-    config.fruitsToSearch
+    config.fruitsToWatch
   );
 
-  if (foundFruits.length > 0) {
-    sendNotification(found);
+
+  if (availableFruits.length > 0) {
+
+    await sendNotification(availableFruits);
+
   } else {
+
     console.log(
       "❌ No hay ninguna fruta buscada disponible."
     );
+
   }
+
 }
 
 
