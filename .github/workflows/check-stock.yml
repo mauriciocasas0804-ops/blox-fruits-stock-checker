@@ -2,6 +2,8 @@ name: Check Blox Fruits Stock
 
 on:
   workflow_dispatch:
+  schedule:
+    - cron: "*/30 * * * *"
 
 jobs:
   check-stock:
@@ -19,7 +21,7 @@ jobs:
       - name: Instalar dependencias
         run: npm install
 
-- name: Ejecutar bot
-  env:
-    DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
-  run: npm start
+      - name: Ejecutar bot
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+        run: npm start
