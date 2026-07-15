@@ -1,1 +1,11 @@
-
+{
+  "name": "blox-fruits-stock-checker",
+  "version": "1.0.0",
+  "description": "Bot para revisar automáticamente el stock de frutas de Blox Fruits",
+  "main": "src/index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node src/index.js"
+  },
+  "dependencies": {}
+}
