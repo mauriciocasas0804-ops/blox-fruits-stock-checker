@@ -1,17 +1,15 @@
 export async function getStock() {
   try {
     const response = await fetch(
-      "https://blox-fruits-api.onrender.com/api/bloxfruits/stock"
+      "https://blox-fruits-api.onrender.com/api/bloxfruits"
     );
 
     const data = await response.json();
 
-    console.log("Respuesta API:", data);
-
-    return Object.values(data.stock).flat();
+    return Object.keys(data);
 
   } catch (error) {
-    console.error("Error obteniendo stock:", error);
+    console.error("Error obteniendo frutas:", error);
     return [];
   }
 }
