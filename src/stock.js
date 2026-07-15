@@ -1,12 +1,18 @@
 export async function getStock() {
-  // Stock de prueba (después lo conectaremos al stock real)
-  const stock = [
-    "Rocket",
-    "Spin",
-    "Ghost"
-  ];
+  try {
+    const response = await fetch(
+      "https://blox-fruits-api.onrender.com/api/bloxfruits/stock"
+    );
 
-  return stock;
+    const data = await response.json();
+
+    const stock = JSON.parse(data);
+
+    return stock;
+  } catch (error) {
+    console.error("Error obteniendo stock:", error);
+    return [];
+  }
 }
 
 
