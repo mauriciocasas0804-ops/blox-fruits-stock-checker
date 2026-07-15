@@ -6,7 +6,9 @@ export async function getStock() {
 
     const data = await response.json();
 
-    return data;
+    console.log("Respuesta API:", data);
+
+    return Object.values(data.stock).flat();
 
   } catch (error) {
     console.error("Error obteniendo stock:", error);
