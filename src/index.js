@@ -1,5 +1,5 @@
 import { config } from "./config.js";
-import { getStock, searchFruit } from "./stock.js";
+import { getStock, searchFruits } from "./stock.js";
 import { sendNotification } from "./notifier.js";
 
 
@@ -11,15 +11,18 @@ async function main() {
   console.log("📦 Stock actual:");
   console.log(stock);
 
-  const found = searchFruit(stock, config.fruitToSearch);
+  const foundFruits = searchFruits(
+    stock,
+    config.fruitsToSearch
+  );
 
-  if (found) {
+  if (foundFruits.length > 0) {
     sendNotification(
-      `¡La fruta ${config.fruitToSearch} está en stock!`
+      `🔥 Frutas encontradas: ${foundFruits.join(", ")}`
     );
   } else {
     console.log(
-      `❌ ${config.fruitToSearch} no está disponible.`
+      "❌ No hay ninguna fruta buscada disponible."
     );
   }
 }
