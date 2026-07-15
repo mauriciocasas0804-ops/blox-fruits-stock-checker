@@ -9,6 +9,9 @@ jobs:
   check-stock:
     runs-on: ubuntu-latest
 
+    permissions:
+      contents: write
+
     steps:
       - name: Descargar repositorio
         uses: actions/checkout@v4
@@ -25,3 +28,11 @@ jobs:
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
         run: npm start
+
+      - name: Guardar cambios del anti spam
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "github-actions@github.com"
+          git add data/last-alert.json
+          git commit -m "Update alert history" || exit 0
+          git push
