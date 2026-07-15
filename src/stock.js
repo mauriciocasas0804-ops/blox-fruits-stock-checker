@@ -1,17 +1,17 @@
 export async function getStock() {
-  // Aquí después conectaremos la API o fuente de datos del stock
-
+  // Stock de prueba (después lo conectaremos al stock real)
   const stock = [
     "Rocket",
     "Spin",
-    "Flame",
-    "Ice"
+    "Ghost"
   ];
 
   return stock;
 }
 
 
-export function searchFruit(stock, fruitName) {
-  return stock.includes(fruitName);
+export function searchFruits(stock, fruitsToSearch) {
+  return fruitsToSearch.filter((fruit) =>
+    stock.includes(fruit)
+  );
 }
